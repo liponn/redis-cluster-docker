@@ -1,15 +1,75 @@
-master:
-  image: redis:3
-slave:
-  image: redis:3
-  command: redis-server --slaveof redis-master 6379
-  links:
-    - master:redis-master
-sentinel:
-  build: sentinel
-  environment:
-    - SENTINEL_DOWN_AFTER=5000
-    - SENTINEL_FAILOVER=5000    
-  links:
-    - master:redis-master
-    - slave
+version: '3'
+services:
+  master:
+    image: redis:latest
+    container_name: redis-master
+    restart: always
+    command: redis-server --port 6379 --appendonly yes
+    ports:
+      - 6379:6379
+    volumes:
+      - ./data:/data
+ 
+  slave1:
+    image: redis:latest
+    container_name: redis-slave-1
+    restart: always
+    command: redis-server --slaveof master 6379 --port 6380 --appendonly yes
+    ports:
+      - 6380:6380
+    volumes:
+      - ./data:/data
+    links:
+      - master
+ 
+  slave2:
+    image: redis:latest
+    container_name: redis-slave-2
+    restart: always
+    command: redis-server --slaveof master 6379 --port 6381 --appendonly yes
+    ports:
+      - 6381:6381
+    volumes:
+      - ./data:/data
+    links:
+      - master
+
+
+  sentinel_1:
+    build: sentinel
+    container_name: redis-sentinel-1
+    environment:
+      - SENTINEL_DOWN_AFTER=5000
+      - SENTINEL_FAILOVER=5000
+    ports:
+      - 26379:26379
+    links:
+      - master:redis-master
+      - slave1
+      - slave2
+
+  sentinel_2:
+    build: sentinel
+    container_name: redis-sentinel-2
+    environment:
+      - SENTINEL_DOWN_AFTER=5000
+      - SENTINEL_FAILOVER=5000    
+    ports:
+      - 26380:26379
+    links:
+      - master:redis-master
+      - slave1
+      - slave2
+
+  sentinel_3:
+    build: sentinel
+    container_name: redis-sentinel-3
+    environment:
+      - SENTINEL_DOWN_AFTER=5000
+      - SENTINEL_FAILOVER=5000    
+    ports:
+      - 26381:26379    
+    links:
+      - master:redis-master
+      - slave1
+      - slave2

@@ -1,3 +1,4 @@
+
 # redis-cluster 
 **Redis cluster with Docker Compose** 
 
@@ -144,7 +145,7 @@ docker exec rediscluster_sentinel_1 redis-cli -p 26379 SENTINEL get-master-addr-
 
 ## References
 
-[https://github.com/mdevilliers/docker-rediscluster][1]
+[AliyunContainerService/redis-cluster][1]
 
 [https://registry.hub.docker.com/u/joshula/redis-sentinel/] [2]
 
@@ -157,8 +158,4 @@ docker exec rediscluster_sentinel_1 redis-cli -p 26379 SENTINEL get-master-addr-
 
 Apache 2.0 license 
 
-## Contributors
-
-* Li Yi (<denverdino@gmail.com>)
-* Ty Alexander (<ty.alexander@gmail.com>)
 

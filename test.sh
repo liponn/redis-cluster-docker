@@ -25,7 +25,7 @@ echo $MASTER_IP---redis-master
 echo $SLAVE_1_IP---redis-slave-1
 echo $SLAVE_2_IP---redis-slave-2
 read -p "Which container do you want to restart?" -e CONTAINER
-docker pause $CONTAINER
+docker stop $CONTAINER
 echo Wait for 10 seconds
 sleep 10
 echo Current infomation of sentinel
@@ -36,7 +36,7 @@ docker exec redis-sentinel-1 redis-cli -p 26379 SENTINEL get-master-addr-by-name
 
 echo ------------------------------------------------
 echo Restart Redis master
-docker unpause $CONTAINER
+docker start $CONTAINER
 sleep 5
 echo Current infomation of sentinel
 docker exec redis-sentinel-1 redis-cli -p 26379 info Sentinel

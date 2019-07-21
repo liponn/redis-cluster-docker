@@ -148,7 +148,7 @@ docker exec rediscluster_sentinel_1 redis-cli -p 26379 SENTINEL get-master-addr-
 
 ## References
 
-[AliyunContainerService/redis-cluster] [1]
+[https://github.com/mdevilliers/docker-rediscluster] [AliyunContainerService/redis-cluster]
 
 [https://registry.hub.docker.com/u/joshula/redis-sentinel/] [2]
 
